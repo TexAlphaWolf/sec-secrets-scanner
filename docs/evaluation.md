@@ -8,14 +8,15 @@ For each rule, random secrets in its documented format are placed in six kinds o
 
 | Rule | Tested | Found | Recall |
 |---|---:|---:|---:|
-| every rule except `generic-secret`, 19 rules | 19,800 | 19,800 | 100.00% |
+| the 18 rules without entropy or structure filters | 19,600 | 19,600 | 100.00% |
 | `generic-secret`, random 12 characters | 20,000 | 19,881 | 99.41% |
 | `generic-secret`, random 16 characters | 20,000 | 19,959 | 99.80% |
 | `generic-secret`, random 24 characters | 20,000 | 19,999 | 100.00% |
 | `generic-secret`, random 32 characters | 20,000 | 19,991 | 99.95% |
-| **All** | **99,800** | **99,630** | **99.83%** |
+| `url-credentials`, random 16 characters | 20,000 | 19,974 | 99.87% |
+| **All** | **119,600** | **119,404** | **99.84%** |
 
-The generic rule gets many more samples because it is the only one that depends on entropy and structure checks, and its misses are a fraction of a percent. A miss there is a random string that, by chance, has a repeated-character pattern (low entropy) or is shaped like CamelCase words.
+The generic rule and the password-in-URL rule get many more samples because they are the two that depend on entropy and structure checks, and their misses are a fraction of a percent. A miss there is a random string that, by chance, has a repeated-character pattern (low entropy), is shaped like CamelCase words, or contains a placeholder word such as `todo`. An earlier run with 200 samples per rule showed 100% for the URL rule; a run on a PC with 100 samples showed 99 of 100. Both are consistent with the 0.13% measured here, which is why the table uses 20,000.
 
 **Caveat.** The generator follows the documented formats, and the rules were written from the same documentation. This shows that the expressions implement the formats and that the filters do not discard random values; it does **not** show that every real token follows its documentation. No real credentials were used.
 

@@ -115,7 +115,8 @@ def synthetic_recall(n: int, seed: int) -> tuple[Counter[str], Counter[str], lis
                 and found[0].secret == secret
             ):
                 hits[key] += 1
-    for _ in range(n):
+    # url-credentials shares the entropy and structure filters, so it gets the same sample size.
+    for _ in range(n * 100):
         secret = gen.rand(ALNUM, 16)
         total["url-credentials"] += 1
         found = scan_line(f"DATABASE_URL=postgres://app:{secret}@db.internal:5432/app", "x", 1)

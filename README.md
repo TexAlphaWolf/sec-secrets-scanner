@@ -62,7 +62,7 @@ Everything below is reproduced by [`tools/evaluate.py`](tools/evaluate.py) and [
 
 | Measurement | Result |
 |---|---|
-| Recall, 99,800 generated secrets in 20 formats and several kinds of line | **99.83%** (every rule except the generic one 100%; random 12-character generic secrets 99.4%) |
+| Recall, 119,600 generated secrets in 20 formats and several kinds of line | **99.84%** (the 18 rules without entropy or structure filters 100%; passwords in URLs 99.9%; random 12-character generic secrets 99.4%) |
 | False positives on 7,000 benign lines that look like secrets (UUIDs, hashes, base64, env lookups, placeholders, prose) | **0** |
 | CPython 3.13 standard library (300k lines) | 1 finding, a documentation example |
 | 14,000 files of third-party packages (3.9M lines) | 7 findings; none is a live credential: one test private key, six fake values in tests and docs |

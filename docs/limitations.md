@@ -25,6 +25,7 @@ The filters that remove false positives also remove some real secrets. Measured 
 - The misses are random strings with an unusually repeated alphabet (entropy under the length-scaled floor) or that spell CamelCase words by chance.
 - **Passwords that are words are not secrets to the generic rule.** `password = "admin"`, `"test"`, `"changeme"`, `"letmein"` and similar literals are treated as placeholders, as is anything containing `fake`, `mock`, `dummy`, `your` or `example`: a real password containing such a word is missed.
 - **Short identifier-shaped values are skipped**: lowercase or mixed-case words joined by `-` or `_` and shorter than 24 characters, such as `correct-horse`. A passphrase of four or more words is longer and is kept; a short one is not.
+- **The same filters apply to passwords in URLs** (`scheme://user:password@host`): 0.13% of random 16-character passwords are missed, for the same reasons.
 - **Entropy is a heuristic**: a guessable password such as `Summer2024!!` passes the generic rule only because it is long enough and varied enough; a short human-chosen one can fall below the floor.
 
 ## Where it does not look
