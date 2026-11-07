@@ -1,0 +1,36 @@
+name: Self scan
+
+# secscan scans its own repository, history included, and uploads the result to GitHub
+# code scanning as SARIF. The same three lines work in any repository.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0  # the whole history, not just the last commit
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+      - run: pip install .
+      - name: Scan the working tree and fail on any secret
+        run: secscan scan .
+      - name: Scan every commit on every branch
+        run: secscan scan --history --format sarif -o results.sarif --exit-zero
+      - uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results.sarif
+          category: secscan
+      - name: Fail if the history contains a secret
+        run: |
+          secscan scan --history

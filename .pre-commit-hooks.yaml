@@ -1,0 +1,7 @@
+- id: secscan
+  name: secscan (secrets in staged changes)
+  description: Block a commit that adds an API key, token or private key.
+  entry: secscan scan --staged
+  language: python
+  pass_filenames: false
+  always_run: true
